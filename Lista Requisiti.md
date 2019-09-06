@@ -4,7 +4,7 @@
 |:-----:|:-----------:|:----------:|:------:|:--------:|
 |Req-01 | L’applicativo può essere scritto in Java o JS |1|1.0| Scelta: Java |
 |Req-02 | Creazione di un piccolo sito adibito alla descrizione e download dell’applicativo |1|1.0|Solo se Java|
-|Req-03 | È richiesta la creazione d iun piccolo sito per il suo hosting | 1 | 1.0 | Solo se JS|
+|Req-03 | È richiesta la creazione di un piccolo sito per il suo hosting | 1 | 1.0 | Solo se JS|
 |Req-04 | I punti di taglio sono da inserire con il mouse|1|1.0|-|
 |Req-05 | Rimozione e spostamento dei punti |2|1.0|Bonus|
 |Req-06 | Il fiocco di neve finale viene generato con il tasto genera |1|1.0|-|
