@@ -6,10 +6,10 @@
 
 
 |Orario        |Lavoro svolto                 |
-|--------------|------------------------------|
-|14:00         |Creato Account GitHub         |
-|14:15         |Letto Specifiche Progetto     |
-|...           |...                           |
+|:------------:|:----------------------------:|
+|14:00         |Creato Account GitHub            |
+|14:15         |Letto Specifiche Progetto        |
+|15:00-15:45   |Creato documento con i requisiti |
 
 ##  Problemi riscontrati e soluzioni adottate
 
