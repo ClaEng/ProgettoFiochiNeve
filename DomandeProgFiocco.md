@@ -3,7 +3,6 @@
 - Finestra ridimensionabile? Dimensioni minime? -> Si, ridimensionabile. Sì, minimo 1024x768
 - Colori del sito? -> Evitare i colori fastidiosi. Attenzione ai colori per i daltonici.
 - Nel sito JAVA cosa deve esserci esattamente? -> Lista req. di sistema, JRE, guida con screenshots
-- Sito JS? -> Browser supportati, dimensione minima
 - Rendering Live, opzione o abilitato da subito? -> A scelta
 - Quanti poligoni di taglio si possono avere? -> Uno o più poligoni
 - Salvataggio percorso; file o db? -> A scelta

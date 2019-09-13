@@ -53,13 +53,17 @@
 
   In questo capitolo raccogliere le informazioni relative al progetto, ad esempio:
 
-  -   Allievo/i e docente/i coinvolti nel progetto e rispettivi ruoli,
+  -   Allievo: Claudio Engeler
+  
+  -   Docenti coinvolti: Muggiasca Luca e Petrini Geo
 
-  -   scuola ,sezione, materia/e,
+  -   SAM Trevano , Informatica , Modulo 306 + Progetti
 
-  -   date di inizio e termine di consegna,
+  -   Inizio : 06/09/2019
 
-  -   …
+  -   Consegna: 20/12/2019
+
+  -   Presentazioni: 7/1/2020 - 17/1/2020   
 
 ### Abstract
 

@@ -17,4 +17,5 @@
 |Req-13 | Il sito deve avere la lista sei requisiti minimi, versione JRE da usare e una mini guida d'uso | 1 | 1.0 | - |
 |Req-14 | L'applicazione deve permettere la scelta del formato di salvataggio | 1 | 1.0 | - |
 |Req-15 | Il sito deve permettere il download del JAR | 1 | 1.0 | - |
- 
+|Req-16 | L'applicativo deve permettere di scegliere le dimensioni dell'immagine che verrà salvata tra: dimensione schermo, 500x500, 1000x1000 | 1 | 1.0 | - |
+|Req-17 | L'applicativo deve permettere di caricare un file che contiene dei punti | 1 | 1.0 | - |
