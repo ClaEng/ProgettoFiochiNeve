@@ -12,3 +12,5 @@
 |Req-08 | L’applicativo deve permettere di salvare il fiocco come immagine PNG o SVG |1|1.0|-|
 |Req-09 | L’applicativo deve permettere di salvare i punti di taglio per permettere modifiche future |1|1.0|-|
 |Req-10 | L'applicativo deve avere un tasto per permettere il reset totale | 1 | 1.0 | - |
+|Req-11 | L'applicativo deve avere un'interfaccia grafica | 1 | 1.0 | - |
+|Req-12 | L'applicativo deve permettere la scelta delle dimensioni del salvataggio | 1 | 1.0 | - |
