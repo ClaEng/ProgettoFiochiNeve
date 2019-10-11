@@ -103,19 +103,7 @@ public class FioccoFrame extends JFrame implements MouseListener, MouseMotionLis
         taglia.setBackground(Color.ORANGE);
         taglia.setForeground(Color.GREEN);
         taglia.setFocusable(false);
-        taglia.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
+        taglia.addMouseListener(new MouseAdapter() {           
             @Override
             public void mouseEntered(MouseEvent e) {
                 taglia.setBackground(Color.cyan);
@@ -154,12 +142,11 @@ public class FioccoFrame extends JFrame implements MouseListener, MouseMotionLis
 
         g.setColor(Color.BLUE);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        
         //Stampa Triangolo
         g.setColor(Color.WHITE);
-        int[] xs = {this.getWidth() / 5, (this.getWidth() / 5) * 4, (this.getWidth() / 5) * 4};
-        int[] ys = {this.getHeight() / 5 + 40, this.getHeight() / 5 + 40, (this.getHeight() / 5) * 4};
-        Polygon triangle = new Polygon(xs, ys, 3);
-        g.fillPolygon(triangle);
+        Polygon2 triangle = new Polygon2(getTrianglePoints());
+        triangle.paint(g);
 
         if (this.printParteTagliata) {
             g.setColor(Color.BLUE);
@@ -179,6 +166,23 @@ public class FioccoFrame extends JFrame implements MouseListener, MouseMotionLis
             int dim = this.punti.size();
             g.drawLine(this.punti.get(dim - 1).x, this.punti.get(dim - 1).y, this.punti.get(0).x, this.punti.get(0).y);
         }
+    }
+    
+    /**
+     * Crea e ritorna una lista con i punti del triangolo.
+     * 
+     * @return Una lista con i punti del triangolo.
+     */
+    public ArrayList<Point> getTrianglePoints() {
+        ArrayList<Point> p = new ArrayList<>();
+        int[] xs = {this.getWidth() / 5, (this.getWidth() / 5) * 4, (this.getWidth() / 5) * 4};
+        int[] ys = {this.getHeight() / 5 + 40, this.getHeight() / 5 + 40, (this.getHeight() / 5) * 4};
+        
+        for (int i = 0; i < 3; i++) {
+            p.add(new Point(xs[i], ys[i]));
+        }
+        
+        return p;
     }
 
     public static void main(String[] args) {

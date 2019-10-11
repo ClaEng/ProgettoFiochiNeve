@@ -40,8 +40,10 @@ public class HomeFrame extends JFrame {
     public static void main(String[] args) throws IOException {
         HomeFrame hf = new HomeFrame();
         
+        String imgURL = "C:\\Users\\Claudio\\Documents\\GitHub\\ProgettoFiochiNeve\\ProgettoFioccoNeve\\src\\img\\FioccoDiNeve.png";
+        
         JPanel jp = new JPanel();
-        BufferedImage img = ImageIO.read(new File("C:\\Users\\Claudio\\Desktop\\ProgettoFioccoNeve\\src\\img\\FioccoDiNeve.png"));
+        BufferedImage img = ImageIO.read(new File(imgURL));
         ImageIcon icon = new ImageIcon(img);
         JLabel jl = new JLabel(icon);
         jp.add(jl);
@@ -54,21 +56,12 @@ public class HomeFrame extends JFrame {
         avvia.setForeground(Color.CYAN);
         avvia.setFocusPainted(false);
         avvia.setFont(new Font("Arial Black", 1, 75));
-        avvia.addMouseListener(new MouseListener() {
+        avvia.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 FioccoFrame.main(args);
                 hf.setVisible(false);
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
             @Override
             public void mouseEntered(MouseEvent e) {
                 avvia.setBackground(Color.MAGENTA);
