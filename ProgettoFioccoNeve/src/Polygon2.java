@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -43,9 +44,8 @@ public class Polygon2 extends Polygon{
             return new Point(xs[index], ys[index]);
         }
         catch(ArrayIndexOutOfBoundsException i) {
-            
-            System.err.println("Punto non esistente!! Index: " + index);
-            
+                        
+            System.err.println(i.getMessage());
             return null;
         }
     }
@@ -66,6 +66,21 @@ public class Polygon2 extends Polygon{
      */
     public void paint(Graphics g) {
         g.fillPolygon(this);
+        g.setColor(Color.RED);
+        for (int i = 0; i < this.getNPoints(); i++) {
+            g.fillOval(this.getPoint(i).x,
+                        this.getPoint(i).y, 5, 5);
+        }
+    }
+    
+    
+    /**
+     * Aggiunge un punto al poligono.
+     * 
+     * @param p Il punto da aggiungere.
+     */
+    public void addPoint(Point p) {
+        this.addPoint(p.x, p.y);
     }
 
     public Polygon2(ArrayList<Point> points) {
@@ -73,5 +88,9 @@ public class Polygon2 extends Polygon{
         for (Point point : points) {
             this.addPoint(point.x, point.y);
         }
+    }
+
+    public Polygon2() {
+        super();
     }
 }

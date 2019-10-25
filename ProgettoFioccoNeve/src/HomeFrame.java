@@ -40,15 +40,14 @@ public class HomeFrame extends JFrame {
     public static void main(String[] args) throws IOException {
         HomeFrame hf = new HomeFrame();
         
-        String imgURL = "C:\\Users\\Claudio\\Documents\\GitHub\\ProgettoFiochiNeve\\ProgettoFioccoNeve\\src\\img\\FioccoDiNeve.png";
+        String imgURL = ".\\src\\img\\FioccoDiNeve.png";
         
         JPanel jp = new JPanel();
         BufferedImage img = ImageIO.read(new File(imgURL));
         ImageIcon icon = new ImageIcon(img);
         JLabel jl = new JLabel(icon);
-        jp.add(jl);
-        
-        hf.add(jp);
+        jp.add(jl); //Aggiunta Label al Panel.
+        hf.add(jp); //Aggiunta Panel al Frame.
         
         JButton avvia = new JButton("Avvia");
         avvia.setBounds(100, 100, 50, 50);
