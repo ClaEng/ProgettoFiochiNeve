@@ -1,12 +1,17 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 
 /**
  * Classe Frame di Fiocco di neve
@@ -349,6 +354,16 @@ public class FioccoFrame extends JFrame {
      * Salva i punti su un file txt (nella cartella progetto NetBeans).
      */
     public void savePoints() {
+        /*BufferedImage img = new BufferedImage(
+                this.getWidth(),
+                this.getHeight(),
+                BufferedImage.TYPE_INT_RGB);
+        this.paint(img.getGraphics());
+        try {
+            ImageIO.write(img, "png", new File("ciao.png"));
+        }catch(Exception e) {
+            
+        }*/
         if (!this.punti.isEmpty()) {
             try {
                 PrintWriter file;
@@ -392,7 +407,7 @@ public class FioccoFrame extends JFrame {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File file = jfc.getSelectedFile();
                 String path = file.getPath();
-                String extension = getExtensionByStringHandling(path);
+                String extension = getExtension(path);
                 if (extension.equals("points")) {
                     Path p = Paths.get(file.getAbsolutePath());
                     List<String> lines = Files.readAllLines(p);
@@ -417,7 +432,7 @@ public class FioccoFrame extends JFrame {
                     this.printParteTagliata = false;
 
                     repaint();
-                }else{
+                } else {
                     throw new IOException();
                 }
             }
@@ -434,27 +449,26 @@ public class FioccoFrame extends JFrame {
     }
 
     public void generaFiocco() {
-        Area51 triangleArea = new Area51(this.triangle);
+        /*Area51 triangleArea = new Area51(this.triangle);
         Area51 parteTagliataArea = new Area51(this.parteTagliata);
         triangleArea.subtract(parteTagliataArea);
         this.puntiConTagli = triangleArea.getPoints();
         int lowestY = parteTagliataArea.findLowestY();
         System.out.println(triangleArea.findLowestY());
         this.printTagli = true;
-        repaint();
-
+        repaint();*/
     }
 
     /**
      * Data la path di un file ne ritorna l'estensione.
-     * 
+     *
      * @param filename La path del file.
      * @return L'estensione del file.
      */
-    public String getExtensionByStringHandling(String filename) {
+    public String getExtension(String filename) {
         if (filename.contains(".")) {
             return filename.substring(filename.lastIndexOf(".") + 1);
-        }else{
+        } else {
             return "";
         }
     }
