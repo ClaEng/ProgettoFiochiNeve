@@ -23,42 +23,13 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="generaPanel1" alignment="0" max="32767" attributes="0"/>
-          <Component id="buttonsPanel2" alignment="1" pref="420" max="32767" attributes="0"/>
-          <Component id="trianglePanel1" alignment="1" max="32767" attributes="0"/>
+          <EmptySpace min="0" pref="420" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="generaPanel1" min="-2" pref="64" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="trianglePanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="buttonsPanel2" min="-2" pref="94" max="-2" attributes="0"/>
-          </Group>
+          <EmptySpace min="0" pref="384" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
-  <SubComponents>
-    <Component class="WithPanels.GeneraPanel" name="generaPanel1">
-    </Component>
-    <Component class="WithPanels.ButtonsPanel" name="buttonsPanel2">
-    </Component>
-    <Container class="WithPanels.TrianglePanel" name="trianglePanel1">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="214" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
-  </SubComponents>
 </Form>

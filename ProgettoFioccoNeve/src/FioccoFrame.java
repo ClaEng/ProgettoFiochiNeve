@@ -7,11 +7,7 @@ import java.nio.file.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
 
 /**
  * Classe Frame di Fiocco di neve
@@ -174,7 +170,7 @@ public class FioccoFrame extends JFrame {
             }
         });
 
-        this.buttons.add(new Button("Salva Punti"));
+        this.buttons.add(new Button("Salva"));
         this.buttons.get(2).setFocusable(false);
         this.buttons.get(2).setBackground(bColorButton);
         this.buttons.get(2).setForeground(tColorButton);
@@ -190,12 +186,12 @@ public class FioccoFrame extends JFrame {
             public void mouseExited(MouseEvent e) {
                 buttons.get(2).setBackground(bColorButton);
                 buttons.get(2).setForeground(tColorButton);
-                buttons.get(2).setLabel("Salva Punti");
+                buttons.get(2).setLabel("Salva");
             }
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                savePoints();
+                save();
             }
         });
 
@@ -248,6 +244,10 @@ public class FioccoFrame extends JFrame {
                 generaFiocco();
             }
         });
+    }
+
+    public ArrayList<Point> getPunti() {
+        return this.punti;
     }
 
     /**
@@ -353,45 +353,63 @@ public class FioccoFrame extends JFrame {
     /**
      * Salva i punti su un file txt (nella cartella progetto NetBeans).
      */
-    public void savePoints() {
-        /*BufferedImage img = new BufferedImage(
-                this.getWidth(),
-                this.getHeight(),
-                BufferedImage.TYPE_INT_RGB);
-        this.paint(img.getGraphics());
-        try {
-            ImageIO.write(img, "png", new File("ciao.png"));
-        }catch(Exception e) {
-            
-        }*/
-        if (!this.punti.isEmpty()) {
-            try {
-                PrintWriter file;
-                JFileChooser jfc = new JFileChooser("./");
-                jfc.setDialogTitle("Save Points");
-                int returnValue = jfc.showSaveDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    String path = jfc.getSelectedFile().toString();
-                    path += ".points";
-                    file = new PrintWriter(path, "UTF-8");
-                    for (Point point : punti) {
-                        file.println(point.x + "-" + point.y);
-                    }
-                    file.close();
-                    this.buttons.get(2).setLabel("Done");
-                }
-            } catch (IOException ioe) {
-                this.buttons.get(2).setBackground(Color.RED);
-                this.buttons.get(2).setForeground(Color.BLACK);
-                this.buttons.get(2).setLabel("ERRORE");
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ie) {
+    public void save() {
+        JFileChooser jfc = new JFileChooser("./");
+        jfc.setDialogTitle("Save");
+        int returnValue = jfc.showSaveDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            String extension = getExtension(jfc.getSelectedFile().toString());
+            String path = jfc.getSelectedFile().toString();
+            switch (extension) {
+                case "points":
+                    if (!this.punti.isEmpty()) {
+                        try {
+                            PrintWriter file = new PrintWriter(path, "UTF-8");
+                            for (Point point : punti) {
+                                file.println(point.x + "-" + point.y);
+                            }
+                            file.close();
+                            this.buttons.get(2).setLabel("Done");
+                        } catch (IOException ioe) {
+                            this.buttons.get(2).setBackground(Color.RED);
+                            this.buttons.get(2).setForeground(Color.BLACK);
+                            this.buttons.get(2).setLabel("ERRORE");
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException ie) {
 
-                }
+                            }
+                        }
+                    } else {
+                        System.out.println("Nessun punto salvato");
+                    }
+                    break;
+                case "png":
+                    BufferedImage img = new BufferedImage(
+                            this.getWidth(),
+                            this.getHeight(),
+                            BufferedImage.TYPE_INT_RGB);
+                    this.paint(img.getGraphics());
+                    try {
+                        ImageIO.write(img, "png", new File(jfc.getSelectedFile().toString()));
+                    } catch (IOException e) {
+                    }
+                    break;
+                case "svg":
+
+                    break;
+
+                default:
+                    this.buttons.get(2).setBackground(Color.RED);
+                    this.buttons.get(2).setForeground(Color.BLACK);
+                    this.buttons.get(2).setLabel("ERRORE");
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ie) {
+
+                    }
+                    break;
             }
-        } else {
-            System.out.println("Nessun punto salvato");
         }
     }
 
@@ -449,14 +467,14 @@ public class FioccoFrame extends JFrame {
     }
 
     public void generaFiocco() {
-        /*Area51 triangleArea = new Area51(this.triangle);
+        Area51 triangleArea = new Area51(this.triangle);
         Area51 parteTagliataArea = new Area51(this.parteTagliata);
         triangleArea.subtract(parteTagliataArea);
         this.puntiConTagli = triangleArea.getPoints();
         int lowestY = parteTagliataArea.findLowestY();
         System.out.println(triangleArea.findLowestY());
         this.printTagli = true;
-        repaint();*/
+        repaint();
     }
 
     /**
@@ -469,7 +487,7 @@ public class FioccoFrame extends JFrame {
         if (filename.contains(".")) {
             return filename.substring(filename.lastIndexOf(".") + 1);
         } else {
-            return "";
+            return null;
         }
     }
 
