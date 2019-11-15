@@ -17,10 +17,12 @@ public class GeneratedFlakePanel extends javax.swing.JPanel{
     public GeneratedFlakePanel(TrianglePanel tp) {
         this.tp = tp;
     }
-    
+
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        this.tp.getParteTagliata().paint(g);
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        this.tp.getParteTagliata().paintComponent(g);
     }
+    
+    
 }

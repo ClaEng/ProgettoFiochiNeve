@@ -125,12 +125,13 @@ public class TrianglePanel extends JPanel {
         //Stampa Triangolo
         g.setColor(Color.WHITE);
         this.triangle = new Polygon2(getTrianglePoints());
-        this.triangle.paint(g);
+        this.triangle.paintComponent(g);
+        
 
         if (this.printTagli) {
             Polygon2 cuttedPolygon = new Polygon2(this.puntiConTagli);
             g.setColor(new Color(0, 255, 200, 100));
-            cuttedPolygon.paint(g);
+            cuttedPolygon.paintComponent(g);
             /*g.setColor(Color.MAGENTA);
             for (int i = 0; i < cuttedPolygon.getNPoints() - 1; i++) {
                 g.drawLine(cuttedPolygon.getPoint(i).x,
@@ -334,7 +335,7 @@ public class TrianglePanel extends JPanel {
      */
     private int getRadius() {
         ArrayList<Point> points = getTrianglePoints();
-        return (int)points.get(1).distance(points.get(2));
+        return (int)points.get(0).distance(points.get(2));
     }
 
     /**
@@ -345,12 +346,7 @@ public class TrianglePanel extends JPanel {
         ArrayList<Point> editedPoints;
         ArrayList<Polygon2> fiocco = new ArrayList<>();
         fiocco.add(this.triangle);
-        fiocco.get(0).rotate(getRadius(), 90.0);
-        /*for (int i = 0; i < 12; i++) {
-            Polygon2 p = new Polygon2(fiocco.get(i).getPoints());
-            
-            fiocco.add(p);
-        }*/
+        fiocco.get(0).rotate(getRadius(), 90, fiocco.get(0).getPoint(2));
     }
 
     /**

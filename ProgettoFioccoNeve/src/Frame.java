@@ -58,8 +58,7 @@ public class Frame extends javax.swing.JFrame {
 
         GeneraPanel = new javax.swing.JPanel();
         genera = new java.awt.Button();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        buttonsPanel = new javax.swing.JPanel();
         taglia = new java.awt.Button();
         reset = new java.awt.Button();
         salva = new java.awt.Button();
@@ -93,9 +92,7 @@ public class Frame extends javax.swing.JFrame {
 
         getContentPane().add(GeneraPanel, java.awt.BorderLayout.NORTH);
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
-        jPanel3.setLayout(new java.awt.GridLayout(2, 2));
+        buttonsPanel.setLayout(new java.awt.GridLayout(2, 2));
 
         taglia.setBackground(new java.awt.Color(0, 102, 255));
         taglia.setForeground(new java.awt.Color(0, 204, 0));
@@ -113,7 +110,7 @@ public class Frame extends javax.swing.JFrame {
                 tagliaActionPerformed(evt);
             }
         });
-        jPanel3.add(taglia);
+        buttonsPanel.add(taglia);
 
         reset.setBackground(new java.awt.Color(0, 102, 255));
         reset.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -132,7 +129,7 @@ public class Frame extends javax.swing.JFrame {
                 resetActionPerformed(evt);
             }
         });
-        jPanel3.add(reset);
+        buttonsPanel.add(reset);
 
         salva.setBackground(new java.awt.Color(0, 102, 255));
         salva.setForeground(new java.awt.Color(0, 204, 0));
@@ -150,7 +147,7 @@ public class Frame extends javax.swing.JFrame {
                 salvaActionPerformed(evt);
             }
         });
-        jPanel3.add(salva);
+        buttonsPanel.add(salva);
 
         caricaPunti.setBackground(new java.awt.Color(0, 102, 255));
         caricaPunti.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -169,11 +166,9 @@ public class Frame extends javax.swing.JFrame {
                 caricaPuntiActionPerformed(evt);
             }
         });
-        jPanel3.add(caricaPunti);
+        buttonsPanel.add(caricaPunti);
 
-        jPanel1.add(jPanel3, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(buttonsPanel, java.awt.BorderLayout.PAGE_END);
 
         trianglePanel.setLayout(new java.awt.BorderLayout());
         getContentPane().add(trianglePanel, java.awt.BorderLayout.CENTER);
@@ -298,10 +293,9 @@ public class Frame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GeneraPanel;
+    private javax.swing.JPanel buttonsPanel;
     private java.awt.Button caricaPunti;
     public java.awt.Button genera;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private java.awt.Button reset;
     public java.awt.Button salva;
     public java.awt.Button taglia;

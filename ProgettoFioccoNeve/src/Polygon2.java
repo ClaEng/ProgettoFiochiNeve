@@ -2,6 +2,7 @@
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 /**
@@ -68,11 +69,18 @@ public class Polygon2 extends Polygon{
      * 
      * @param radius il raggio dell'asse di rotazione.
      * @param degrees i gradi di rotazione. (IN GRADI).
+     * @param center il centro di rotazione.
      */
-    public void rotate(int radius, double degrees) {
-        int asseX = radius * 2;
-        int asseY = radius * 2;
-        double seno = Math.sin(degrees / RADIANT_TO_DEGREES);
+    public void rotate(int radius, double degrees, Point center) {
+        double seno = Math.sin(Math.toRadians(degrees));
+        double coseno = Math.cos(Math.toRadians(degrees));
+        double cateto1 = seno * radius;
+        double cateto2 = coseno * radius;
+        
+        double distanceYFromCenter = this.getPoint(0).y - center.y;
+        double ipotenusa = center.distance(this.getPoint(0));
+        double angle =  Math.asin(seno) / ipotenusa;
+        System.out.println(angle);
     }
     
     /**
@@ -80,7 +88,7 @@ public class Polygon2 extends Polygon{
      * 
      * @param g Componente grafico.
      */
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
         g.fillPolygon(this);
     }
     
