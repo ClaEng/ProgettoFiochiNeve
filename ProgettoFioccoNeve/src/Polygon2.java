@@ -1,5 +1,4 @@
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -12,6 +11,11 @@ import java.util.ArrayList;
  * @version 11 ott 2019
  */
 public class Polygon2 extends Polygon{
+    
+    /**
+     * Rapporto tra radianti e gradi.
+     */
+    public static final double RADIANT_TO_DEGREES = 180 / Math.PI;
     
     /**
      * Ritorna una lista con tutti i punti.
@@ -60,17 +64,24 @@ public class Polygon2 extends Polygon{
     }
     
     /**
+     * Rotea un poligono
+     * 
+     * @param radius il raggio dell'asse di rotazione.
+     * @param degrees i gradi di rotazione. (IN GRADI).
+     */
+    public void rotate(int radius, double degrees) {
+        int asseX = radius * 2;
+        int asseY = radius * 2;
+        double seno = Math.sin(degrees / RADIANT_TO_DEGREES);
+    }
+    
+    /**
      * Metodo Paint per Polygon2.
      * 
      * @param g Componente grafico.
      */
     public void paint(Graphics g) {
         g.fillPolygon(this);
-        g.setColor(Color.RED);
-        for (int i = 0; i < this.getNPoints(); i++) {
-            g.fillOval(this.getPoint(i).x,
-                        this.getPoint(i).y, 5, 5);
-        }
     }
     
     
