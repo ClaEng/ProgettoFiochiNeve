@@ -124,7 +124,9 @@ public class TrianglePanel extends JPanel {
 
         //Stampa Triangolo
         g.setColor(Color.WHITE);
-        this.triangle = new Polygon2(getTrianglePoints());
+        if(this.triangle == null) {
+            this.triangle = new Polygon2(getTrianglePoints());
+        }
         this.triangle.paintComponent(g);
         
 
@@ -187,11 +189,13 @@ public class TrianglePanel extends JPanel {
         int[] xs = {
             this.getWidth() / 7 * 2,
             this.getWidth() / 7 * 5,
-            this.getWidth() / 7 * 5};
+            this.getWidth() / 7 * 5
+        };
         int[] ys = {
             this.getHeight() / 7,
-            this.getHeight() / 7 + (this.getHeight() / 20 * 2),
-            this.getHeight() / 7 * 6};
+            this.getHeight() / 7,
+            this.getHeight() / 7 * 6
+        };
 
         for (int i = 0; i < 3; i++) {
             p.add(new Point(xs[i], ys[i]));
@@ -201,7 +205,7 @@ public class TrianglePanel extends JPanel {
     }
 
     /**
-     * Salva i punti su un file txt (nella cartella progetto NetBeans).
+     * Gestisce il salvataggio dei punti e delle immagini.
      */
     public void save() {
         JFileChooser jfc = new JFileChooser("./");
@@ -223,7 +227,10 @@ public class TrianglePanel extends JPanel {
 
                         }
                     } else {
-                        System.out.println("Nessun punto salvato");
+                        JOptionPane.showMessageDialog(null,
+                            "Nessun punto salvato",
+                            "ERRORE",
+                            JOptionPane.ERROR_MESSAGE);
                     }
                     break;
                 case "png":
@@ -240,6 +247,12 @@ public class TrianglePanel extends JPanel {
                 case "svg":
 
                     break;
+                    default:
+                        JOptionPane.showMessageDialog(null,
+                            "Estensione non valida!! Usare solo .points, .png, .svg",
+                            "ERRORE",
+                            JOptionPane.ERROR_MESSAGE);
+                        break;
             }
         }
     }
@@ -252,7 +265,6 @@ public class TrianglePanel extends JPanel {
             JFileChooser jfc = new JFileChooser("./");
             jfc.setDialogTitle("Load Points");
             int returnValue = jfc.showOpenDialog(null);
-
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File file = jfc.getSelectedFile();
                 String path = file.getPath();
@@ -277,12 +289,13 @@ public class TrianglePanel extends JPanel {
 
                         }
                     }
-
                     this.printParteTagliata = false;
-
                     repaint();
                 } else {
-                    throw new IOException();
+                    JOptionPane.showMessageDialog(null,
+                            "File non valido",
+                            "ERRORE",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (IOException ioe) {
@@ -335,7 +348,7 @@ public class TrianglePanel extends JPanel {
      */
     private int getRadius() {
         ArrayList<Point> points = getTrianglePoints();
-        return (int)points.get(0).distance(points.get(2));
+        return (int)points.get(1).distance(points.get(2));
     }
 
     /**
@@ -346,7 +359,10 @@ public class TrianglePanel extends JPanel {
         ArrayList<Point> editedPoints;
         ArrayList<Polygon2> fiocco = new ArrayList<>();
         fiocco.add(this.triangle);
-        fiocco.get(0).rotate(getRadius(), 90, fiocco.get(0).getPoint(2));
+        
+        //this.triangle = this.triangle.resize();
+        this.parteTagliata = this.triangle.mirror();
+        repaint();
     }
 
     /**
