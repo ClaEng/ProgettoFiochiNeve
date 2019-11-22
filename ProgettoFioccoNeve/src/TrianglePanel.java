@@ -215,8 +215,8 @@ public class TrianglePanel extends JPanel {
         jfc.setDialogTitle("Save");
         int returnValue = jfc.showSaveDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            String extension = getExtension(jfc.getSelectedFile().toString());
             String path = jfc.getSelectedFile().toString();
+            String extension = getExtension(path);
             switch (extension) {
                 case "points":
                     if (!this.punti.isEmpty()) {
@@ -243,7 +243,10 @@ public class TrianglePanel extends JPanel {
                             BufferedImage.TYPE_INT_RGB);
                     this.paint(img.getGraphics());
                     try {
-                        ImageIO.write(img, "png", new File(jfc.getSelectedFile().toString()));
+                        ImageIO.write(
+                                img,
+                                "png",
+                                new File(jfc.getSelectedFile().toString()));
                     } catch (IOException e) {
                     }
                     break;
@@ -332,7 +335,8 @@ public class TrianglePanel extends JPanel {
         this.printTriangle = true;
         this.printPoints = true;
         this.puntiConTagli.removeAll(this.puntiConTagli);
-        this.parteTagliata.reset();
+        if (this.parteTagliata != null)
+            this.parteTagliata.reset();
         this.shapes.removeAll(this.shapes);
         repaint();
     }
@@ -357,6 +361,10 @@ public class TrianglePanel extends JPanel {
         this.printParteTagliata = false;
         this.printPoints = false;
         repaint();
+    }
+    
+    public boolean areTherePoints() {
+        return this.punti.size() < 3;
     }
 
     /**

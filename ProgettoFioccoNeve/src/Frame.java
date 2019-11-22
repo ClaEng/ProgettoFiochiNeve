@@ -20,11 +20,6 @@ public class Frame extends javax.swing.JFrame {
     private Color tColorButton = new Color(0, 204, 0);
 
     /**
-     * Indica se il pannelo col triangolo e visibile o no.
-     */
-    private boolean isTrianglePanelShowing = true;
-
-    /**
      * Creates new form Frame
      */
     public Frame() {
@@ -54,8 +49,8 @@ public class Frame extends javax.swing.JFrame {
         GeneraPanel = new javax.swing.JPanel();
         genera = new java.awt.Button();
         buttonsPanel = new javax.swing.JPanel();
-        taglia = new java.awt.Button();
         reset = new java.awt.Button();
+        taglia = new java.awt.Button();
         salva = new java.awt.Button();
         caricaPunti = new java.awt.Button();
         trianglePanel = new TrianglePanel();
@@ -89,24 +84,6 @@ public class Frame extends javax.swing.JFrame {
 
         buttonsPanel.setLayout(new java.awt.GridLayout(2, 2));
 
-        taglia.setBackground(new java.awt.Color(0, 102, 255));
-        taglia.setForeground(new java.awt.Color(0, 204, 0));
-        taglia.setLabel("Taglia");
-        taglia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                tagliaMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                tagliaMouseExited(evt);
-            }
-        });
-        taglia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tagliaActionPerformed(evt);
-            }
-        });
-        buttonsPanel.add(taglia);
-
         reset.setBackground(new java.awt.Color(0, 102, 255));
         reset.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         reset.setForeground(new java.awt.Color(0, 204, 0));
@@ -125,6 +102,24 @@ public class Frame extends javax.swing.JFrame {
             }
         });
         buttonsPanel.add(reset);
+
+        taglia.setBackground(new java.awt.Color(0, 102, 255));
+        taglia.setForeground(new java.awt.Color(0, 204, 0));
+        taglia.setLabel("Taglia");
+        taglia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tagliaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                tagliaMouseExited(evt);
+            }
+        });
+        taglia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tagliaActionPerformed(evt);
+            }
+        });
+        buttonsPanel.add(taglia);
 
         salva.setBackground(new java.awt.Color(0, 102, 255));
         salva.setForeground(new java.awt.Color(0, 204, 0));
@@ -233,7 +228,7 @@ public class Frame extends javax.swing.JFrame {
     private void tagliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagliaActionPerformed
         trianglePanel.taglia();
         genera.setEnabled(true);
-        taglia.setEnabled(false);
+        taglia.setEnabled(trianglePanel.areTherePoints());
     }//GEN-LAST:event_tagliaActionPerformed
 
     private void tagliaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tagliaMouseExited

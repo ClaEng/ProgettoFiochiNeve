@@ -28,6 +28,7 @@ public class Area51 extends Area{
             int y = (int) floats[1];
             if (type != PathIterator.SEG_CLOSE) {
                 p.add(new Point(x, y));
+                System.out.println("X: " + x + " Y: " + y + " Type: " + type);
             }
             iterator.next();
         }
