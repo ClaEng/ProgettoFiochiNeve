@@ -20,11 +20,6 @@ public class Frame extends javax.swing.JFrame {
     private Color tColorButton = new Color(0, 204, 0);
 
     /**
-     * Pannello con il fioco generato.
-     */
-    private GeneratedFlakePanel gfp;
-
-    /**
      * Indica se il pannelo col triangolo e visibile o no.
      */
     private boolean isTrianglePanelShowing = true;
@@ -39,12 +34,12 @@ public class Frame extends javax.swing.JFrame {
         taglia.setFocusable(false);
         reset.setFocusable(false);
         salva.setFocusable(false);
+        genera.setEnabled(false);
         caricaPunti.setFocusable(false);
         Dimension maxDimension = new Dimension(1080, 720);
         this.setMaximumSize(maxDimension);
         Dimension minDimension = new Dimension(480, 270);
         this.setMinimumSize(minDimension);
-        gfp = new GeneratedFlakePanel(trianglePanel);
     }
 
     /**
@@ -66,7 +61,7 @@ public class Frame extends javax.swing.JFrame {
         trianglePanel = new TrianglePanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("SnowFlakeFrame");
+        setTitle("Snow Flake Generator");
 
         GeneraPanel.setLayout(new javax.swing.BoxLayout(GeneraPanel, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -177,19 +172,8 @@ public class Frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void generaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generaActionPerformed
-        if (this.isTrianglePanelShowing) {
-            this.isTrianglePanelShowing = false;
-            trianglePanel.setVisible(false);
-            this.add(this.gfp);
-            gfp.setVisible(true);
-            trianglePanel.generaFiocco();
-            genera.setLabel("Back");
-        } else {
-            this.isTrianglePanelShowing = true;
-            trianglePanel.setVisible(true);
-            gfp.setVisible(false);
-            genera.setLabel("Genera");
-        }
+        trianglePanel.generaFiocco();
+        genera.setEnabled(false);
     }//GEN-LAST:event_generaActionPerformed
 
     private void generaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generaMouseEntered
@@ -232,6 +216,8 @@ public class Frame extends javax.swing.JFrame {
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         trianglePanel.reset();
+        genera.setEnabled(false);
+        taglia.setEnabled(true);
     }//GEN-LAST:event_resetActionPerformed
 
     private void resetMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetMouseExited
@@ -246,6 +232,8 @@ public class Frame extends javax.swing.JFrame {
 
     private void tagliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagliaActionPerformed
         trianglePanel.taglia();
+        genera.setEnabled(true);
+        taglia.setEnabled(false);
     }//GEN-LAST:event_tagliaActionPerformed
 
     private void tagliaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tagliaMouseExited

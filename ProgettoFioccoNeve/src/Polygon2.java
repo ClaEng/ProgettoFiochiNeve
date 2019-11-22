@@ -2,6 +2,8 @@
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 /**
@@ -58,20 +60,14 @@ public class Polygon2 extends Polygon {
     /**
      * Rotea un poligono
      *
-     * @param radius il raggio dell'asse di rotazione.
      * @param degrees i gradi di rotazione. (IN GRADI).
      * @param center il centro di rotazione.
      */
-    public void rotate(int radius, double degrees, Point center) {
-        double seno = Math.sin(Math.toRadians(degrees));
-        double coseno = Math.cos(Math.toRadians(degrees));
-        double cateto1 = seno * radius;
-        double cateto2 = coseno * radius;
-
-        double distanceYFromCenter = this.getPoint(0).y - center.y;
-        double ipotenusa = center.distance(this.getPoint(0));
-        double angle = Math.asin(seno) / ipotenusa;
-        System.out.println(angle);
+    public Shape rotate(double degrees, Point center) {
+        AffineTransform at = new AffineTransform();
+        at.rotate(Math.toRadians(-degrees), center.x, center.y);
+        Shape p = at.createTransformedShape(this);
+        return p;
     }
 
     /**
@@ -81,12 +77,29 @@ public class Polygon2 extends Polygon {
      */
     public Polygon2 mirror() {
         Polygon2 p = this;
-        int differenza = 0;
+        int differenza;
+        int max = getXMax(p.getPoints());
         for (Point punto : this.getPoints()) {
-            differenza = this.getPoint(1).x - punto.x;
+            differenza = max - punto.x;
             p.addPoint(new Point(this.getPoint(1).x + differenza, punto.y));
         }
         return p;
+    }
+    
+    /**
+     * Data una lista di punti ne trova quello con la X maggiore.
+     * 
+     * @param p La lista.
+     * @return La X più grande.
+     */
+    private int getXMax(ArrayList<Point> p) {
+        int max = p.get(0).x;
+        for (Point point : p) {
+            if (point.x > max) {
+                max = point.x;
+            }
+        }
+        return max;
     }
 
     /**
@@ -95,15 +108,17 @@ public class Polygon2 extends Polygon {
      * @return il poligono ridimensionato.
      */
     public Polygon2 resize() {
-        Polygon2 original = this;
         Polygon2 p = new Polygon2();
-        Point inizio = original.getPoint(0);
-        p.addPoint(inizio);
-        int differenzaX, differenzaY;
-        for (int i = 1; i < this.getNPoints() - 1; i++) {
+        int differenzaX , differenzaY;
+        Point puntoAttuale = this.getPoint(0);
+        p.addPoint(puntoAttuale);
+        for (int i = 0; i < this.getNPoints() - 1; i++) {
             differenzaX = this.getPoint(i + 1).x - this.getPoint(i).x;
             differenzaY = this.getPoint(i + 1).y - this.getPoint(i).y;
-            
+            differenzaX /= 2;
+            differenzaY /= 2;
+            p.addPoint(puntoAttuale.x + differenzaX, puntoAttuale.y + differenzaY);
+            puntoAttuale = p.getPoint(i + 1);
         }
         return p;
     }

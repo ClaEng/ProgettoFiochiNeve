@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
  * @version 20/09/2019
  */
 public class TrianglePanel extends JPanel {
-    
+
     /**
      * Sono tutti i punti creati.
      */
@@ -61,7 +61,22 @@ public class TrianglePanel extends JPanel {
      * Lista con i punti della parte tagliata dopo la generazione.
      */
     private ArrayList<Point> puntiConTagli = new ArrayList<>();
-  
+
+    /**
+     * Contiene i poligoni che formano il fiocco.
+     */
+    private ArrayList<Shape> shapes = new ArrayList<>();
+
+    /**
+     * Determina se stampare o no il triangolo.
+     */
+    private boolean printTriangle = true;
+
+    /**
+     * Determina se stampare o no i punti.
+     */
+    private boolean printPoints = true;
+
     public TrianglePanel() {
         this.setLayout(null);
         this.addMouseListener(new MouseAdapter() {
@@ -101,13 +116,13 @@ public class TrianglePanel extends JPanel {
             }
         });
     }
-    
+
     /**
      * Getter di ParteTagliata.
-     * 
+     *
      * @return il Poligono parte tagliata.
      */
-    public Polygon2 getParteTagliata () {
+    public Polygon2 getParteTagliata() {
         return this.parteTagliata;
     }
 
@@ -119,34 +134,22 @@ public class TrianglePanel extends JPanel {
     @Override
     public void paint(Graphics g) {
 
+        Graphics2D g2d = (Graphics2D) g;
+
         g.setColor(this.bColorButton);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
         //Stampa Triangolo
         g.setColor(Color.WHITE);
-        if(this.triangle == null) {
-            this.triangle = new Polygon2(getTrianglePoints());
+        this.triangle = new Polygon2(getTrianglePoints());
+        if (this.printTriangle) {
+            this.triangle.paintComponent(g);
         }
-        this.triangle.paintComponent(g);
-        
 
         if (this.printTagli) {
-            Polygon2 cuttedPolygon = new Polygon2(this.puntiConTagli);
-            g.setColor(new Color(0, 255, 200, 100));
-            cuttedPolygon.paintComponent(g);
-            /*g.setColor(Color.MAGENTA);
-            for (int i = 0; i < cuttedPolygon.getNPoints() - 1; i++) {
-                g.drawLine(cuttedPolygon.getPoint(i).x,
-                        cuttedPolygon.getPoint(i).y,
-                        cuttedPolygon.getPoint(i + 1).x,
-                        cuttedPolygon.getPoint(i + 1).y);
+            for (int i = 0; i < 6; i++) {
+                g2d.fill(this.shapes.get(i));
             }
-            int dim = cuttedPolygon.getNPoints();
-            g.drawLine(cuttedPolygon.getPoint(dim - 1).x,
-                    cuttedPolygon.getPoint(dim - 1).y,
-                    cuttedPolygon.getPoint(0).x,
-                    cuttedPolygon.getPoint(0).y);
-            */
         }
 
         if (this.printParteTagliata) {
@@ -154,7 +157,7 @@ public class TrianglePanel extends JPanel {
             g.fillPolygon(parteTagliata);
         }
 
-        if (!this.printParteTagliata) {
+        if (this.printPoints) {
             g.setColor(Color.red);
             punti.forEach((item) -> {
                 g.fillOval(item.x - R, item.y - R, R * 2, R * 2);
@@ -228,9 +231,9 @@ public class TrianglePanel extends JPanel {
                         }
                     } else {
                         JOptionPane.showMessageDialog(null,
-                            "Nessun punto salvato",
-                            "ERRORE",
-                            JOptionPane.ERROR_MESSAGE);
+                                "Nessun punto salvato",
+                                "ERRORE",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                     break;
                 case "png":
@@ -247,12 +250,12 @@ public class TrianglePanel extends JPanel {
                 case "svg":
 
                     break;
-                    default:
-                        JOptionPane.showMessageDialog(null,
+                default:
+                    JOptionPane.showMessageDialog(null,
                             "Estensione non valida!! Usare solo .points, .png, .svg",
                             "ERRORE",
                             JOptionPane.ERROR_MESSAGE);
-                        break;
+                    break;
             }
         }
     }
@@ -313,6 +316,7 @@ public class TrianglePanel extends JPanel {
                 this.parteTagliata.addPoint(item.x, item.y);
             }
             this.printParteTagliata = true;
+            this.printPoints = false;
             repaint();
         }
     }
@@ -325,6 +329,11 @@ public class TrianglePanel extends JPanel {
         this.punti.removeAll(this.punti);
         this.triangle = new Polygon2(getTrianglePoints());
         this.printTagli = false;
+        this.printTriangle = true;
+        this.printPoints = true;
+        this.puntiConTagli.removeAll(this.puntiConTagli);
+        this.parteTagliata.reset();
+        this.shapes.removeAll(this.shapes);
         repaint();
     }
 
@@ -336,32 +345,17 @@ public class TrianglePanel extends JPanel {
         Area51 parteTagliataArea = new Area51(this.parteTagliata);
         triangleArea.subtract(parteTagliataArea);
         this.puntiConTagli = triangleArea.getPoints();
+        Polygon2 p = new Polygon2(this.puntiConTagli);
+        Point center = new Point(this.getWidth() / 2, this.getHeight() / 2);
+        p = p.mirror();
+        p = p.resize();
+        for (int i = 0; i < 6; i++) {
+            this.shapes.add(p.rotate(60 * i, center));
+        }
         this.printTagli = true;
-        flipTriangleX();
-        repaint();
-    }
-    
-    /**
-     * Calcola il raggio del cerchio di rotazione.
-     * 
-     * @return il raggio.
-     */
-    private int getRadius() {
-        ArrayList<Point> points = getTrianglePoints();
-        return (int)points.get(1).distance(points.get(2));
-    }
-
-    /**
-     * Specchia il triangolo sull'asse X.
-     */
-    public void flipTriangleX() {
-        ArrayList<Point> originalPoints = this.triangle.getPoints();
-        ArrayList<Point> editedPoints;
-        ArrayList<Polygon2> fiocco = new ArrayList<>();
-        fiocco.add(this.triangle);
-        
-        //this.triangle = this.triangle.resize();
-        this.parteTagliata = this.triangle.mirror();
+        this.printTriangle = false;
+        this.printParteTagliata = false;
+        this.printPoints = false;
         repaint();
     }
 
