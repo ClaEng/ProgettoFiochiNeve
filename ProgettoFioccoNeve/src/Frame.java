@@ -228,7 +228,7 @@ public class Frame extends javax.swing.JFrame {
     private void tagliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagliaActionPerformed
         trianglePanel.taglia();
         genera.setEnabled(true);
-        taglia.setEnabled(trianglePanel.areTherePoints());
+        taglia.setEnabled(!trianglePanel.areTherePoints());
     }//GEN-LAST:event_tagliaActionPerformed
 
     private void tagliaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tagliaMouseExited

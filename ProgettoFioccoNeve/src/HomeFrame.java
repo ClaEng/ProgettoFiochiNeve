@@ -1,9 +1,12 @@
 
 import java.awt.Color;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
 
 /**
  * HomeFrame.
- * 
+ *
  * @author Claudio Engeler
  */
 public class HomeFrame extends javax.swing.JFrame {
@@ -28,10 +31,11 @@ public class HomeFrame extends javax.swing.JFrame {
         autore = new javax.swing.JLabel();
         fiocco = new javax.swing.JLabel();
         avvia = new javax.swing.JButton();
+        sitoButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("HomeFrame");
-        getContentPane().setLayout(new java.awt.GridLayout(4, 0));
+        getContentPane().setLayout(new java.awt.GridLayout(5, 0));
 
         titolo.setFont(new java.awt.Font("Verdana", 0, 30)); // NOI18N
         titolo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -65,6 +69,25 @@ public class HomeFrame extends javax.swing.JFrame {
         });
         getContentPane().add(avvia);
 
+        sitoButton.setBackground(new java.awt.Color(255, 255, 255));
+        sitoButton.setFont(new java.awt.Font("Arial Black", 0, 75)); // NOI18N
+        sitoButton.setForeground(new java.awt.Color(0, 255, 255));
+        sitoButton.setText("Sito");
+        sitoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                sitoButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                sitoButtonMouseExited(evt);
+            }
+        });
+        sitoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sitoButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(sitoButton);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -83,6 +106,27 @@ public class HomeFrame extends javax.swing.JFrame {
         avvia.setBackground(Color.WHITE);
         avvia.setForeground(Color.CYAN);
     }//GEN-LAST:event_avviaMouseExited
+
+    private void sitoButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sitoButtonMouseEntered
+        sitoButton.setBackground(Color.MAGENTA);
+        sitoButton.setForeground(Color.GREEN);
+    }//GEN-LAST:event_sitoButtonMouseEntered
+
+    private void sitoButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sitoButtonMouseExited
+        sitoButton.setBackground(Color.WHITE);
+        sitoButton.setForeground(Color.CYAN);
+    }//GEN-LAST:event_sitoButtonMouseExited
+
+    private void sitoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sitoButtonActionPerformed
+        URI url = URI.create("http://samtinfo.ch/i17engcla/SnowFlake/");
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(url);
+            } catch (IOException e) {
+            }
+        }
+    }//GEN-LAST:event_sitoButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -123,6 +167,7 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel autore;
     private javax.swing.JButton avvia;
     private javax.swing.JLabel fiocco;
+    private javax.swing.JButton sitoButton;
     private javax.swing.JLabel titolo;
     // End of variables declaration//GEN-END:variables
 }

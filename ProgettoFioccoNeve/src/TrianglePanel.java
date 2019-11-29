@@ -77,6 +77,16 @@ public class TrianglePanel extends JPanel {
      */
     private boolean printPoints = true;
 
+    /**
+     * Determina se stampare o no il fiocco.
+     */
+    private boolean printFlake = false;
+    
+    /**
+     * Copia di parteTagliata.
+     */
+    private Polygon2 parteTagliataCopy;
+
     public TrianglePanel() {
         this.setLayout(null);
         this.addMouseListener(new MouseAdapter() {
@@ -134,8 +144,7 @@ public class TrianglePanel extends JPanel {
     @Override
     public void paint(Graphics g) {
 
-        Graphics2D g2d = (Graphics2D) g;
-
+        Graphics2D g2d = (Graphics2D) g.create();
         g.setColor(this.bColorButton);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
@@ -146,16 +155,12 @@ public class TrianglePanel extends JPanel {
             this.triangle.paintComponent(g);
         }
 
-        if (this.printTagli) {
-            for (int i = 0; i < 6; i++) {
-                g2d.fill(this.shapes.get(i));
-            }
-        }
-
         if (this.printParteTagliata) {
-            g.setColor(new Color(255, 255, 0, 100));
+            g.setColor(Color.WHITE);
             g.fillPolygon(parteTagliata);
         }
+
+        this.paintFlake(g2d);
 
         if (this.printPoints) {
             g.setColor(Color.red);
@@ -183,12 +188,28 @@ public class TrianglePanel extends JPanel {
     }
 
     /**
+     * Stampa il fiocco di neve generato.
+     *
+     * @param g2d Componente grafico.
+     */
+    public void paintFlake(Graphics2D g2d) {
+        g2d.setColor(Color.WHITE);
+        if (this.printFlake) {
+            for (int i = 0; i < 6; i++) {
+                g2d.fill(this.shapes.get(i));
+            }
+        }
+    }
+
+    /**
      * Crea e ritorna una lista con i punti del triangolo.
      *
      * @return Una lista con i punti del triangolo.
      */
     public ArrayList<Point> getTrianglePoints() {
         ArrayList<Point> p = new ArrayList<>();
+        int width = this.getWidth();
+        int height = this.getHeight();
         int[] xs = {
             this.getWidth() / 7 * 2,
             this.getWidth() / 7 * 5,
@@ -313,13 +334,21 @@ public class TrianglePanel extends JPanel {
      * Crea un poligono con i punti creati cliccando.
      */
     public void taglia() {
-        if (this.punti.size() >= 3) {
+        if (this.areTherePoints()) {
             this.parteTagliata = new Polygon2();
+            this.parteTagliataCopy = new Polygon2();
             for (Point item : this.punti) {
                 this.parteTagliata.addPoint(item.x, item.y);
+                this.parteTagliataCopy.addPoint(item.x, item.y);
             }
+            Area51 triangleArea = new Area51(this.triangle);
+            Area51 parteTagliataArea = new Area51(this.parteTagliata);
+            triangleArea.subtract(parteTagliataArea);
+            ArrayList<Point> a = triangleArea.getPoints();
+            this.parteTagliata = new Polygon2(a);
             this.printParteTagliata = true;
             this.printPoints = false;
+            this.printTriangle = false;
             repaint();
         }
     }
@@ -335,9 +364,14 @@ public class TrianglePanel extends JPanel {
         this.printTriangle = true;
         this.printPoints = true;
         this.puntiConTagli.removeAll(this.puntiConTagli);
-        if (this.parteTagliata != null)
+        if (this.parteTagliata != null) {
             this.parteTagliata.reset();
+        }
+        if (this.parteTagliataCopy != null) {
+            this.parteTagliataCopy.reset();
+        }
         this.shapes.removeAll(this.shapes);
+        this.printFlake = false;
         repaint();
     }
 
@@ -346,7 +380,7 @@ public class TrianglePanel extends JPanel {
      */
     public void generaFiocco() {
         Area51 triangleArea = new Area51(this.triangle);
-        Area51 parteTagliataArea = new Area51(this.parteTagliata);
+        Area51 parteTagliataArea = new Area51(this.parteTagliataCopy);
         triangleArea.subtract(parteTagliataArea);
         this.puntiConTagli = triangleArea.getPoints();
         Polygon2 p = new Polygon2(this.puntiConTagli);
@@ -360,11 +394,26 @@ public class TrianglePanel extends JPanel {
         this.printTriangle = false;
         this.printParteTagliata = false;
         this.printPoints = false;
+        this.printFlake = true;
         repaint();
     }
-    
+
+    /**
+     * Verifica che ci siamo almeno tre punti nella lista.
+     *
+     * @return true se ci sono alrimenti false.
+     */
     public boolean areTherePoints() {
-        return this.punti.size() < 3;
+        return this.punti.size() >= 3;
+    }
+
+    /**
+     * Getter per printFlake.
+     *
+     * @return treu se stampare il fiocco altrimenti false.
+     */
+    public boolean getPrintFlake() {
+        return this.printFlake;
     }
 
     /**

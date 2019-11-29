@@ -62,10 +62,11 @@ public class Polygon2 extends Polygon {
      *
      * @param degrees i gradi di rotazione. (IN GRADI).
      * @param center il centro di rotazione.
+     * @return Una Shape roteata.
      */
     public Shape rotate(double degrees, Point center) {
         AffineTransform at = new AffineTransform();
-        at.rotate(Math.toRadians(-degrees), center.x, center.y);
+        at.rotate(Math.toRadians(degrees), center.x, center.y);
         Shape p = at.createTransformedShape(this);
         return p;
     }
@@ -77,11 +78,9 @@ public class Polygon2 extends Polygon {
      */
     public Polygon2 mirror() {
         Polygon2 p = this;
-        int differenza;
-        int max = getXMax(p.getPoints());
+        int max = this.getXMax(p.getPoints());
         for (Point punto : this.getPoints()) {
-            differenza = max - punto.x;
-            p.addPoint(new Point(this.getPoint(1).x + differenza, punto.y));
+            p.addPoint(new Point(max - punto.x, punto.y));
         }
         return p;
     }
@@ -109,16 +108,15 @@ public class Polygon2 extends Polygon {
      */
     public Polygon2 resize() {
         Polygon2 p = new Polygon2();
+        Point puntoAttuale;
         int differenzaX , differenzaY;
-        Point puntoAttuale = this.getPoint(0);
-        p.addPoint(puntoAttuale);
         for (int i = 0; i < this.getNPoints() - 1; i++) {
-            differenzaX = this.getPoint(i + 1).x - this.getPoint(i).x;
-            differenzaY = this.getPoint(i + 1).y - this.getPoint(i).y;
+            puntoAttuale = this.getPoint(i);
+            differenzaX = this.getPoint(i + 1).x - puntoAttuale.x;
+            differenzaY = this.getPoint(i + 1).y - puntoAttuale.y;
             differenzaX /= 2;
             differenzaY /= 2;
             p.addPoint(puntoAttuale.x + differenzaX, puntoAttuale.y + differenzaY);
-            puntoAttuale = p.getPoint(i + 1);
         }
         return p;
     }
