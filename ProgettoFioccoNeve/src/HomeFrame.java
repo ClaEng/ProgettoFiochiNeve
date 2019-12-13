@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
@@ -72,7 +73,7 @@ public class HomeFrame extends javax.swing.JFrame {
         sitoButton.setBackground(new java.awt.Color(255, 255, 255));
         sitoButton.setFont(new java.awt.Font("Arial Black", 0, 75)); // NOI18N
         sitoButton.setForeground(new java.awt.Color(0, 255, 255));
-        sitoButton.setText("Sito");
+        sitoButton.setText("Help");
         sitoButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 sitoButtonMouseEntered(evt);

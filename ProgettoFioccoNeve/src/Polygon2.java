@@ -2,6 +2,7 @@
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -70,6 +71,20 @@ public class Polygon2 extends Polygon {
         Shape p = at.createTransformedShape(this);
         return p;
     }
+    
+    /**
+     * Trasla un poligono
+     * 
+     * @param pixelX quantità di pixel X.
+     * @param pixelY quantità di pixel Y.
+     * @return La shape traslata.
+     */
+    public Shape translatePolygon(int pixelX, int pixelY) {
+        AffineTransform at = new AffineTransform();
+        at.translate(pixelX, pixelY);
+        Shape p = at.createTransformedShape(this);
+        return p;
+    }
 
     /**
      * Specchia un poligono sull'asse X.
@@ -79,8 +94,10 @@ public class Polygon2 extends Polygon {
     public Polygon2 mirror() {
         Polygon2 p = this;
         int max = this.getXMax(p.getPoints());
+        int differenza;
         for (Point punto : this.getPoints()) {
-            p.addPoint(new Point(max - punto.x, punto.y));
+            differenza = max - punto.x;
+            p.addPoint(new Point(max + differenza, punto.y));
         }
         return p;
     }
@@ -92,13 +109,18 @@ public class Polygon2 extends Polygon {
      * @return La X più grande.
      */
     private int getXMax(ArrayList<Point> p) {
-        int max = p.get(0).x;
-        for (Point point : p) {
-            if (point.x > max) {
-                max = point.x;
-            }
-        }
-        return max;
+        Rectangle r = this.getBounds();
+        return r.x + r.width;
+    }
+    
+    public int getMaxY() {
+        Rectangle r = this.getBounds();
+        return r.y + r.height;
+    }
+    
+    public int getHalfX() {
+        Rectangle r = this.getBounds();
+        return r.x + (r.width / 2);
     }
 
     /**
@@ -106,18 +128,10 @@ public class Polygon2 extends Polygon {
      *
      * @return il poligono ridimensionato.
      */
-    public Polygon2 resize() {
-        Polygon2 p = new Polygon2();
-        Point puntoAttuale;
-        int differenzaX , differenzaY;
-        for (int i = 0; i < this.getNPoints() - 1; i++) {
-            puntoAttuale = this.getPoint(i);
-            differenzaX = this.getPoint(i + 1).x - puntoAttuale.x;
-            differenzaY = this.getPoint(i + 1).y - puntoAttuale.y;
-            differenzaX /= 2;
-            differenzaY /= 2;
-            p.addPoint(puntoAttuale.x + differenzaX, puntoAttuale.y + differenzaY);
-        }
+    public Shape resize() {
+        AffineTransform at = new AffineTransform();
+        at.scale(0.5, 0.5);
+        Shape p = at.createTransformedShape(this);
         return p;
     }
 

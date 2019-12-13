@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<title>Snow Flake Genetator</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.header {
+  border: 1px solid red;
+  padding: 15px;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px;
+}
+
+h1 , h4 {
+  text-align: center;
+  font-family: Verdana;
+  color: #B3AE4D;
+}
+footer {
+    position: fixed;
+    color: #fedcba;
+    background-color: #abcdef;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+a {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: large;
+  background-color: greenyellow;
+  text-decoration: none;
+  font-size: 30px;
+}
+a:hover {
+  background-color: #ff0000;
+  color: #128942;
+}
+
+p {
+  font-family: Verdana;
+  text-align: left;
+  color: #004BFA;
+}
+
+b {
+  color: #B3AE4D;
+}
+
+body {
+  background-image: url("img/Flake.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+</style>
+</head>
+<body>
+  <h1>Snow Flake Genetator</h1>
+  <h4>By Claudio Engeler</h4>
+  <a href="SnowFlakeGenerator.jar">Download now</a>
+  <h1>Guida d'uso rapida</h1>
+    <img src="img/Home.PNG" style="float: left;">
+    <p style="float: left; padding: 15px;">
+      Questa è la schermata iniziale. <br> Cliccando su <b>Sito</b> si viene portati su questa pagina. <br>
+      Cliccando su <b>Avvia</b> si lancia l'applicativo.
+    </p>  
+    <p style="float: left; padding: 15px;">
+      Questo è come si presenta il programma all'avvio. <br> Cliccando col tasto sinistro in un punto qualsiasi si crea un punto.
+      <br> Cliccando col tasto destro su un punto esso viene rimosso.<br> Posssono essere creati quanti punti si vogliono. <br> 
+      Una volta creati i punti voluti essi possono essere salvati per un uso futuro. Per farlo cliccare su <b>Salva</b>, sceglire dove 
+      salvare e <strong>mettere come estensione del file .points</strong> . <br>
+      Fatto ciò cliccare su <b>Taglia</b> per visionare i tagli, poi cliccare su <b>Genera</b> per generare il fiocco. <br>
+      Ora è possibile resettare il tutto clicando su <b>Reset</b> o salvare il fiocco come immagine clicando su <b>Salva</b>
+      e <strong>mettendo come estensione del file .png</strong> . <br>
+      Se si vuole utilizzare dei punti salvati in precedenza cliccare su <b>Carica Punti</b> e sceglire un file .points . 
+    </p>
+    <img src="img/Frame.PNG" style="float: left;">
+    <img src="img/savePoints.PNG" style="float: left;">
+    <img src="img/taglio.PNG" style="float: left;">
+    <img src="img/generatedFiocco.PNG" style="float: left;">
+  <footer>&copy; 2019 Claudio Engeler. Design by Claudio Engeler</footer>
+</body>
+</html>

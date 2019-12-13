@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+import java.awt.geom.PathIterator;
 
 /**
  * Classe Frame di Fiocco di neve
@@ -195,6 +196,7 @@ public class TrianglePanel extends JPanel {
     public void paintFlake(Graphics2D g2d) {
         g2d.setColor(Color.WHITE);
         if (this.printFlake) {
+            //g2d.fill(this.shapes.get(0));
             for (int i = 0; i < 6; i++) {
                 g2d.fill(this.shapes.get(i));
             }
@@ -384,11 +386,15 @@ public class TrianglePanel extends JPanel {
         triangleArea.subtract(parteTagliataArea);
         this.puntiConTagli = triangleArea.getPoints();
         Polygon2 p = new Polygon2(this.puntiConTagli);
-        Point center = new Point(this.getWidth() / 2, this.getHeight() / 2);
         p = p.mirror();
-        p = p.resize();
+        Polygon2 pPronto = shapeToPolygon2(p.resize());
+        Polygon2 q = shapeToPolygon2(pPronto.translatePolygon(75, 25));
+        Point center = getRotationPoint(q);
+        center.x = q.getHalfX();
+        center.y = q.getMaxY();
+        //this.shapes.add(q.rotate(0, center));
         for (int i = 0; i < 6; i++) {
-            this.shapes.add(p.rotate(60 * i, center));
+            this.shapes.add(q.rotate(60 * i, center));
         }
         this.printTagli = true;
         this.printTriangle = false;
@@ -406,6 +412,16 @@ public class TrianglePanel extends JPanel {
     public boolean areTherePoints() {
         return this.punti.size() >= 3;
     }
+    
+    /**
+     * Calcola il punto di rotazione del fiocco.
+     * 
+     * @return il punto di rotazione del fiocco.
+     */
+    public Point getRotationPoint(Polygon2 q) {
+        Polygon2 triangleCopy = shapeToPolygon2(q.resize());
+        return triangleCopy.getPoint(2);
+    }
 
     /**
      * Getter per printFlake.
@@ -414,6 +430,38 @@ public class TrianglePanel extends JPanel {
      */
     public boolean getPrintFlake() {
         return this.printFlake;
+    }
+    
+    /**
+     * Ritorna una lista di punti dell'area.
+     *
+     * @param shape La shape.
+     * @return Lista di punti dell'area.
+     */
+    public Polygon2 shapeToPolygon2(Shape shape) {
+        ArrayList<Point> p = new ArrayList<>();
+        ArrayList<Point> points0 = new ArrayList<>();
+        PathIterator iterator = shape.getPathIterator(null);
+        float[] floats = new float[6];
+        Point chiusura = null;
+        while (!iterator.isDone()) {
+            int type = iterator.currentSegment(floats);
+            int x = (int) floats[0];
+            int y = (int) floats[1];
+            p.add(new Point(x, y));
+            if (type == 0) {
+                chiusura = new Point(x, y);
+                points0.add(chiusura);
+            }
+            if (type == 4) {
+                p.add(chiusura);
+            }
+            iterator.next();
+        }
+        for (Point punto : points0) {
+            p.add(punto);
+        }
+        return new Polygon2(p);
     }
 
     /**
