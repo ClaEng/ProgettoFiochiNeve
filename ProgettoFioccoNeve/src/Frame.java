@@ -25,6 +25,7 @@ public class Frame extends javax.swing.JFrame {
         initComponents();
         this.setSize(500, 500);
         genera.setFocusable(false);
+        salvaSVGButton.setFocusable(false);
         taglia.setFocusable(false);
         reset.setFocusable(false);
         salvaPng.setFocusable(false);
@@ -55,6 +56,7 @@ public class Frame extends javax.swing.JFrame {
         caricaPunti = new java.awt.Button();
         savePanel = new javax.swing.JPanel();
         salvaPng = new java.awt.Button();
+        salvaSVGButton = new java.awt.Button();
         salvaPoints = new java.awt.Button();
         trianglePanel = new TrianglePanel();
 
@@ -147,7 +149,7 @@ public class Frame extends javax.swing.JFrame {
 
         buttonsPanel.add(utilityPanel);
 
-        savePanel.setLayout(new java.awt.GridLayout(1, 2));
+        savePanel.setLayout(new java.awt.GridLayout(1, 3));
 
         salvaPng.setBackground(new java.awt.Color(0, 102, 255));
         salvaPng.setForeground(new java.awt.Color(0, 204, 0));
@@ -166,6 +168,24 @@ public class Frame extends javax.swing.JFrame {
             }
         });
         savePanel.add(salvaPng);
+
+        salvaSVGButton.setBackground(new java.awt.Color(0, 102, 255));
+        salvaSVGButton.setForeground(new java.awt.Color(0, 204, 0));
+        salvaSVGButton.setLabel("Salva SVG");
+        salvaSVGButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                salvaSVGButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                salvaSVGButtonMouseExited(evt);
+            }
+        });
+        salvaSVGButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salvaSVGButtonActionPerformed(evt);
+            }
+        });
+        savePanel.add(salvaSVGButton);
 
         salvaPoints.setBackground(new java.awt.Color(0, 102, 255));
         salvaPoints.setForeground(new java.awt.Color(0, 204, 0));
@@ -284,6 +304,20 @@ public class Frame extends javax.swing.JFrame {
         trianglePanel.savePoints();
     }//GEN-LAST:event_salvaPointsActionPerformed
 
+    private void salvaSVGButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvaSVGButtonMouseEntered
+        salvaSVGButton.setBackground(tColorButton);
+        salvaSVGButton.setForeground(bColorButton);
+    }//GEN-LAST:event_salvaSVGButtonMouseEntered
+
+    private void salvaSVGButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvaSVGButtonMouseExited
+        salvaSVGButton.setBackground(bColorButton);
+        salvaSVGButton.setForeground(tColorButton);
+    }//GEN-LAST:event_salvaSVGButtonMouseExited
+
+    private void salvaSVGButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvaSVGButtonActionPerformed
+        trianglePanel.saveSvg();
+    }//GEN-LAST:event_salvaSVGButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -325,6 +359,7 @@ public class Frame extends javax.swing.JFrame {
     private java.awt.Button reset;
     public java.awt.Button salvaPng;
     public java.awt.Button salvaPoints;
+    private java.awt.Button salvaSVGButton;
     private javax.swing.JPanel savePanel;
     public java.awt.Button taglia;
     private TrianglePanel trianglePanel;

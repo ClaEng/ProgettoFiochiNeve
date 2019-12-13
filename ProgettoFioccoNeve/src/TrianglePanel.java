@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import java.awt.geom.PathIterator;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import jankovicsandras.imagetracer.ImageTracer;
 
 /**
  * Classe Frame di Fiocco di neve
@@ -264,7 +265,7 @@ public class TrianglePanel extends JPanel {
     }
 
     /**
-     * Gestisce il salvataggio delle immagini.
+     * Gestisce il salvataggio delle immagini in png.
      */
     public void savePng() {
         JFileChooser jfc = new JFileChooser("./");
@@ -286,6 +287,30 @@ public class TrianglePanel extends JPanel {
                         "png",
                         new File(path));
             } catch (IOException e) {
+            }
+        }
+    }
+    
+    /**
+     * Gestisce il salvataggio delle immagini in svg.
+     */
+    public void saveSvg() {
+        JFileChooser jfc = new JFileChooser("./");
+        jfc.setDialogTitle("Save SVG");
+        FileFilter fPng = new FileNameExtensionFilter("SVG", "svg");
+        jfc.addChoosableFileFilter(fPng);
+        jfc.setAcceptAllFileFilterUsed(false);
+        int returnValue = jfc.showSaveDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            String path = jfc.getSelectedFile().toString() + ".svg";
+            BufferedImage img = new BufferedImage(
+                    this.getWidth(),
+                    this.getHeight(),
+                    BufferedImage.TYPE_INT_RGB);
+            this.paint(img.getGraphics());
+            try {
+                ImageTracer.saveString(path, ImageTracer.imageToSVG(img, null, null));
+            } catch (Exception e) {
             }
         }
     }
