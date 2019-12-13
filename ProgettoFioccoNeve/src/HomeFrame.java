@@ -1,7 +1,5 @@
 
-import java.awt.Color;
-import java.awt.Desktop;
-import java.io.File;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 

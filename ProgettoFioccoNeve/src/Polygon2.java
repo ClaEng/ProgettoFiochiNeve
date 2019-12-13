@@ -1,9 +1,5 @@
 
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
@@ -113,11 +109,21 @@ public class Polygon2 extends Polygon {
         return r.x + r.width;
     }
     
+    /**
+     * Trova la Y maggiore.
+     * 
+     * @return La Y più grande.
+     */
     public int getMaxY() {
         Rectangle r = this.getBounds();
         return r.y + r.height;
     }
     
+    /**
+     * Calcola la X a metà del poligono.
+     * 
+     * @return la X a metà del poligono.
+     */
     public int getHalfX() {
         Rectangle r = this.getBounds();
         return r.x + (r.width / 2);

@@ -1,7 +1,5 @@
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 

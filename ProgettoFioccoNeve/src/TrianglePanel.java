@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import java.awt.geom.PathIterator;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Classe Frame di Fiocco di neve
@@ -82,7 +84,7 @@ public class TrianglePanel extends JPanel {
      * Determina se stampare o no il fiocco.
      */
     private boolean printFlake = false;
-    
+
     /**
      * Copia di parteTagliata.
      */
@@ -158,7 +160,7 @@ public class TrianglePanel extends JPanel {
 
         if (this.printParteTagliata) {
             g.setColor(Color.WHITE);
-            g.fillPolygon(parteTagliata);
+            g.fillPolygon(this.parteTagliata);
         }
 
         this.paintFlake(g2d);
@@ -169,6 +171,7 @@ public class TrianglePanel extends JPanel {
                 g.fillOval(item.x - R, item.y - R, R * 2, R * 2);
             });
 
+            g.setColor(Color.BLACK);
             for (int i = 0; i < this.punti.size() - 1; i++) {
                 g.drawLine(
                         this.punti.get(i).x,
@@ -194,10 +197,9 @@ public class TrianglePanel extends JPanel {
      * @param g2d Componente grafico.
      */
     public void paintFlake(Graphics2D g2d) {
-        g2d.setColor(Color.WHITE);
         if (this.printFlake) {
-            //g2d.fill(this.shapes.get(0));
             for (int i = 0; i < 6; i++) {
+                g2d.setColor(Color.WHITE);
                 g2d.fill(this.shapes.get(i));
             }
         }
@@ -231,57 +233,59 @@ public class TrianglePanel extends JPanel {
     }
 
     /**
-     * Gestisce il salvataggio dei punti e delle immagini.
+     * Gestisce il salvataggio dei punti.
      */
-    public void save() {
+    public void savePoints() {
         JFileChooser jfc = new JFileChooser("./");
-        jfc.setDialogTitle("Save");
+        jfc.setDialogTitle("Save Points");
+        FileFilter fPoints = new FileNameExtensionFilter("Punti", "points");
+        jfc.addChoosableFileFilter(fPoints);
+        jfc.setAcceptAllFileFilterUsed(false);
         int returnValue = jfc.showSaveDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            String path = jfc.getSelectedFile().toString();
-            String extension = getExtension(path);
-            switch (extension) {
-                case "points":
-                    if (!this.punti.isEmpty()) {
-                        try {
-                            PrintWriter file = new PrintWriter(path, "UTF-8");
-                            for (Point point : punti) {
-                                file.println(point.x + "-" + point.y);
-                            }
-                            file.close();
-                        } catch (IOException ioe) {
-
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                "Nessun punto salvato",
-                                "ERRORE",
-                                JOptionPane.ERROR_MESSAGE);
+            if (!this.punti.isEmpty()) {
+                try {
+                    String path = jfc.getSelectedFile().toString() + ".points";
+                    PrintWriter file = new PrintWriter(path, "UTF-8");
+                    for (Point point : punti) {
+                        file.println(point.x + "-" + point.y);
                     }
-                    break;
-                case "png":
-                    BufferedImage img = new BufferedImage(
-                            this.getWidth(),
-                            this.getHeight(),
-                            BufferedImage.TYPE_INT_RGB);
-                    this.paint(img.getGraphics());
-                    try {
-                        ImageIO.write(
-                                img,
-                                "png",
-                                new File(jfc.getSelectedFile().toString()));
-                    } catch (IOException e) {
-                    }
-                    break;
-                case "svg":
+                    file.close();
+                } catch (IOException ioe) {
 
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null,
-                            "Estensione non valida!! Usare solo .points, .png, .svg",
-                            "ERRORE",
-                            JOptionPane.ERROR_MESSAGE);
-                    break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "Nessun punto salvato",
+                        "ERRORE",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    /**
+     * Gestisce il salvataggio delle immagini.
+     */
+    public void savePng() {
+        JFileChooser jfc = new JFileChooser("./");
+        jfc.setDialogTitle("Save PNG");
+        FileFilter fPng = new FileNameExtensionFilter("PNG", "png");
+        jfc.addChoosableFileFilter(fPng);
+        jfc.setAcceptAllFileFilterUsed(false);
+        int returnValue = jfc.showSaveDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            String path = jfc.getSelectedFile().toString() + ".png";
+            BufferedImage img = new BufferedImage(
+                    this.getWidth(),
+                    this.getHeight(),
+                    BufferedImage.TYPE_INT_RGB);
+            this.paint(img.getGraphics());
+            try {
+                ImageIO.write(
+                        img,
+                        "png",
+                        new File(path));
+            } catch (IOException e) {
             }
         }
     }
@@ -293,39 +297,34 @@ public class TrianglePanel extends JPanel {
         try {
             JFileChooser jfc = new JFileChooser("./");
             jfc.setDialogTitle("Load Points");
+            FileFilter fPoints = new FileNameExtensionFilter("Punti", "points");
+            jfc.addChoosableFileFilter(fPoints);
+            jfc.setAcceptAllFileFilterUsed(false);
             int returnValue = jfc.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File file = jfc.getSelectedFile();
                 String path = file.getPath();
-                String extension = getExtension(path);
-                if (extension.equals("points")) {
-                    Path p = Paths.get(file.getAbsolutePath());
-                    List<String> lines = Files.readAllLines(p);
-                    String[][] valPunti = new String[lines.size() * 2][2];
-                    for (int i = 0; i < lines.size(); i++) {
-                        valPunti[i] = lines.get(i).split("-");
-                    }
-
-                    this.punti.removeAll(punti);
-
-                    for (String[] points : valPunti) {
-                        try {
-                            this.punti.add(new Point(
-                                    Integer.parseInt(points[0]),
-                                    Integer.parseInt(points[1])
-                            ));
-                        } catch (NumberFormatException e) {
-
-                        }
-                    }
-                    this.printParteTagliata = false;
-                    repaint();
-                } else {
-                    JOptionPane.showMessageDialog(null,
-                            "File non valido",
-                            "ERRORE",
-                            JOptionPane.ERROR_MESSAGE);
+                Path p = Paths.get(file.getAbsolutePath());
+                List<String> lines = Files.readAllLines(p);
+                String[][] valPunti = new String[lines.size() * 2][2];
+                for (int i = 0; i < lines.size(); i++) {
+                    valPunti[i] = lines.get(i).split("-");
                 }
+
+                this.punti.removeAll(punti);
+
+                for (String[] points : valPunti) {
+                    try {
+                        this.punti.add(new Point(
+                                Integer.parseInt(points[0]),
+                                Integer.parseInt(points[1])
+                        ));
+                    } catch (NumberFormatException e) {
+
+                    }
+                }
+                this.printParteTagliata = false;
+                repaint();
             }
         } catch (IOException ioe) {
 
@@ -392,7 +391,6 @@ public class TrianglePanel extends JPanel {
         Point center = getRotationPoint(q);
         center.x = q.getHalfX();
         center.y = q.getMaxY();
-        //this.shapes.add(q.rotate(0, center));
         for (int i = 0; i < 6; i++) {
             this.shapes.add(q.rotate(60 * i, center));
         }
@@ -412,10 +410,10 @@ public class TrianglePanel extends JPanel {
     public boolean areTherePoints() {
         return this.punti.size() >= 3;
     }
-    
+
     /**
      * Calcola il punto di rotazione del fiocco.
-     * 
+     *
      * @return il punto di rotazione del fiocco.
      */
     public Point getRotationPoint(Polygon2 q) {
@@ -431,7 +429,7 @@ public class TrianglePanel extends JPanel {
     public boolean getPrintFlake() {
         return this.printFlake;
     }
-    
+
     /**
      * Ritorna una lista di punti dell'area.
      *
