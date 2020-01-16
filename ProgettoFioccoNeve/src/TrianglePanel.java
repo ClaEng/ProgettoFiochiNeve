@@ -199,8 +199,8 @@ public class TrianglePanel extends JPanel {
      */
     public void paintFlake(Graphics2D g2d) {
         if (this.printFlake) {
+            g2d.setColor(Color.WHITE);
             for (int i = 0; i < 6; i++) {
-                g2d.setColor(Color.WHITE);
                 g2d.fill(this.shapes.get(i));
             }
         }
